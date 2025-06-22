@@ -28,7 +28,6 @@ public class Student {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
     private String gender;
 
     @Column(nullable = false)
