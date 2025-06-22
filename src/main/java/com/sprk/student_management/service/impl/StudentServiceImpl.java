@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
@@ -20,6 +22,21 @@ public class StudentServiceImpl implements StudentService {
     public Student saveStudent(Student student) {
         Student savedStudent = studentRepository.save(student);
         return savedStudent;
+    }
+
+    @Override
+    public List<Student> findAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public Student findStudentByRollNo(int rollNo) {
+        return studentRepository.findById(rollNo).orElseThrow(() -> new RuntimeException(String.format("Student With Roll No = %d Not Found", rollNo)));
+    }
+
+    @Override
+    public List<Student> findAllByGender(String gender) {
+        return studentRepository.findByGender(gender);
     }
 
     /*
