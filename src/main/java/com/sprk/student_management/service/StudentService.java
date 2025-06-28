@@ -15,4 +15,8 @@ public interface StudentService {
     Student findStudentByRollNo(int rollNo);
 
     List<Student> findAllByGender(String gender);
+
+    boolean deleteStudent(int rollNo);
+
+    Student updateStudent(int rollNo, Student student);
 }

@@ -39,6 +39,39 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findByGender(gender);
     }
 
+    @Override
+    public boolean deleteStudent(int rollNo) {
+        // Step 1: Check if student with roll no exists or not
+        Student existingStudent = studentRepository.findById(rollNo).orElse(null);
+
+        // Step 2: If exists then only delete the student
+        if (existingStudent != null) {
+            // Delete
+            // studentRepository.deleteById(rollNo);
+            studentRepository.delete(existingStudent);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Student updateStudent(int rollNo, Student student) {
+        // Step 1: Check if student with roll no exists or not
+        Student existingStudent = studentRepository.findById(rollNo).orElse(null);
+
+        // Step 2: If exists then only update the student
+        if (existingStudent != null) {
+            // Update
+            student.setRollNo(rollNo);
+           
+            Student updatedStudent = studentRepository.save(student);
+
+            return updatedStudent;
+        }
+        return existingStudent;
+    }
+
     /*
     @Autowired
     public StudentServiceImpl(StudentRepository studentRepository) {
