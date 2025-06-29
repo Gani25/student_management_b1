@@ -1,5 +1,6 @@
 package com.sprk.student_management.controller;
 
+import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
 import com.sprk.student_management.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,10 @@ public class StudentController {
 
     // Insert student
     @PostMapping("/student")
-    public Student addStudent(@RequestBody Student student) {
+    public StudentDto addStudent(@RequestBody StudentDto studentDto) {
         // Service Call
-        Student savedStudent = studentService.saveStudent(student);
-        return savedStudent;
+        StudentDto savedStudentDto = studentService.saveStudent(studentDto);
+        return savedStudentDto;
     }
 
     // Find All Students

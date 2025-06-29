@@ -1,8 +1,10 @@
 package com.sprk.student_management.service.impl;
 
+import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
 import com.sprk.student_management.repository.StudentRepository;
 import com.sprk.student_management.service.StudentService;
+import com.sprk.student_management.util.StudentMapper;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,14 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public Student saveStudent(Student student) {
+    public StudentDto saveStudent(StudentDto studentDto) {
+        // Write the Logic For DTO to Entity
+        Student student = StudentMapper.mappedStudentDtoToStudent(studentDto);
         Student savedStudent = studentRepository.save(student);
-        return savedStudent;
+
+        StudentDto savedStudentDto = StudentMapper.mappedStudentToStudentDto(savedStudent);
+
+        return savedStudentDto;
     }
 
     @Override
