@@ -2,15 +2,19 @@ package com.sprk.student_management.service.impl;
 
 import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
+import com.sprk.student_management.exception.StudentRollNoMismatch;
+import com.sprk.student_management.exception.StudentRollNoNotFound;
 import com.sprk.student_management.repository.StudentRepository;
 import com.sprk.student_management.service.StudentService;
 import com.sprk.student_management.util.StudentMapper;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto saveStudent(StudentDto studentDto) {
+        // Find if email already exisst then throw Exception -> Error Request Code
         // Write the Logic For DTO to Entity
         Student student = StudentMapper.mappedStudentDtoToStudent(studentDto);
         Student savedStudent = studentRepository.save(student);
@@ -37,8 +42,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student findStudentByRollNo(int rollNo) {
-        return studentRepository.findById(rollNo).orElseThrow(() -> new RuntimeException(String.format("Student With Roll No = %d Not Found", rollNo)));
+    public Student findStudentByRollNo(String rollNo) {
+        // Check if rollNo contains only numbers
+        if(!Pattern.matches("^[\\d]+$",rollNo))
+        {
+
+            throw new StudentRollNoMismatch("Enter Roll No In Integer Only", HttpStatus.BAD_REQUEST);
+        }
+        int rollNoInt = Integer.parseInt(rollNo);
+
+        return studentRepository
+                .findById(rollNoInt)
+                .orElseThrow(() -> {
+                    return new StudentRollNoNotFound(String.format("Student With Roll No = %d Not Found", rollNoInt), HttpStatus.NOT_FOUND);
+                });
     }
 
     @Override

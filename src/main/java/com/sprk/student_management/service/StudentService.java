@@ -13,7 +13,7 @@ public interface StudentService {
 
     List<Student> findAllStudents();
 
-    Student findStudentByRollNo(int rollNo);
+    Student findStudentByRollNo(String rollNo);
 
     List<Student> findAllByGender(String gender);
 

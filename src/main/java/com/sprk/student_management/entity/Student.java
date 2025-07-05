@@ -36,6 +36,8 @@ public class Student {
     @Column(nullable = false)
     private double percentage;
 
+    // email -> When creating check if already exists or not
+
     // constructor
     // getters/setters
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class StudentController {
 
     // Find Student By Roll No
     @GetMapping("/student/{rollNo}")
-    public Student getStudentByRollNo(@PathVariable int rollNo) {
+    public Student getStudentByRollNo(@PathVariable String rollNo) {
         Student existingStudent = studentService.findStudentByRollNo(rollNo);
 
         return existingStudent;
