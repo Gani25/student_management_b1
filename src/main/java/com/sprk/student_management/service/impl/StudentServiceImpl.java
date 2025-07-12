@@ -1,5 +1,6 @@
 package com.sprk.student_management.service.impl;
 
+import com.sprk.student_management.constant.StudentConstants;
 import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
 import com.sprk.student_management.exception.EmailAlreadyExists;
@@ -29,8 +30,8 @@ public class StudentServiceImpl implements StudentService {
     public StudentDto saveStudent(StudentDto studentDto) {
         // Find if email already exisst then throw Exception -> Error Request Code
         if(studentRepository.existsByEmail(studentDto.getEmail())){
-            String msg = "Email = "+studentDto.getEmail()+" already exists";
-            throw new EmailAlreadyExists(msg, HttpStatus.CONFLICT);
+
+            throw new EmailAlreadyExists(String.format(StudentConstants.EMAIL_EXISTS,studentDto.getEmail()), HttpStatus.valueOf(StudentConstants.EMAIL_CONFLICT));
         }
         // Write the Logic For DTO to Entity
         Student student = StudentMapper.mappedStudentDtoToStudent(studentDto);
