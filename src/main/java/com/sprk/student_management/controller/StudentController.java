@@ -3,6 +3,7 @@ package com.sprk.student_management.controller;
 import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
 import com.sprk.student_management.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class StudentController {
 
     // Insert student
     @PostMapping("/student")
-    public StudentDto addStudent(@RequestBody StudentDto studentDto) {
+    public StudentDto addStudent(@Valid @RequestBody StudentDto studentDto) {
         // Service Call
         StudentDto savedStudentDto = studentService.saveStudent(studentDto);
         return savedStudentDto;

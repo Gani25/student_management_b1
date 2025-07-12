@@ -13,4 +13,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     // Custom
     // JPQL custom query methods
     List<Student> findByGender(String gender);
+
+    boolean existsByEmail(String email);
 }
