@@ -6,13 +6,13 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 
 @Data
-public class ErrorResponseDto {
+public class ErrorResponseDto<E> {
 
     private String apiPath;
 
     private HttpStatus httpStatus;
 
-    private String message;
+    private E message;
 
     private LocalDateTime timestamp;
 }

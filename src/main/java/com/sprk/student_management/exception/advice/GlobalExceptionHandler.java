@@ -35,14 +35,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             validationErrors.put(fieldName, errorMessage);
         });
 
-        return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
+        ErrorResponseDto<Map<String,String>> errorResponseDto = new ErrorResponseDto<>();
+        errorResponseDto.setApiPath(request.getDescription(false));
+        errorResponseDto.setHttpStatus(HttpStatus.valueOf(status.value()));
+        errorResponseDto.setTimestamp(LocalDateTime.now());
+        errorResponseDto.setMessage(validationErrors);
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.valueOf(status.value()));
 
     }
 
     @ExceptionHandler(StudentException.class)
-    public ResponseEntity<ErrorResponseDto> handleMethodArgumentTypeMismatchException(StudentException e, WebRequest request) {
+    public ResponseEntity<ErrorResponseDto<String>> handleMethodArgumentTypeMismatchException(StudentException e, WebRequest request) {
 
-        ErrorResponseDto errorResponseDto = new ErrorResponseDto();
+        ErrorResponseDto<String> errorResponseDto = new ErrorResponseDto<>();
         errorResponseDto.setMessage(e.getMessage());
         errorResponseDto.setApiPath(request.getDescription(false));
         errorResponseDto.setHttpStatus(e.getStatus());
