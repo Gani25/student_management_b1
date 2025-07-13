@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 //@Table(name = "student_sprk_info") now table will be created with this name
-public class Student {
+public class Student extends BaseEntity {
 
     // Since for columns we use camelCase -> rollNo -> column name will be snake_case -> roll_no
     @Id
