@@ -1,6 +1,7 @@
 package com.sprk.student_management.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@AllArgsConstructor
 //@Table(name = "student_sprk_info") now table will be created with this name
 public class Student extends BaseEntity {
 

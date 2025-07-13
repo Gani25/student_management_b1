@@ -2,9 +2,13 @@ package com.sprk.student_management.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentDto {
 
     private int rollNo;

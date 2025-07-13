@@ -9,7 +9,6 @@ import com.sprk.student_management.exception.StudentRollNoNotFound;
 import com.sprk.student_management.repository.StudentRepository;
 import com.sprk.student_management.service.StudentService;
 import com.sprk.student_management.util.StudentMapper;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +25,8 @@ public class StudentServiceImpl implements StudentService {
 //    @Autowired
     private final StudentRepository studentRepository;
 
+    private final StudentMapper studentMapper;
+
     @Override
     public StudentDto saveStudent(StudentDto studentDto) {
         // Find if email already exisst then throw Exception -> Error Request Code
@@ -34,10 +35,10 @@ public class StudentServiceImpl implements StudentService {
             throw new EmailAlreadyExists(String.format(StudentConstants.EMAIL_EXISTS,studentDto.getEmail()), HttpStatus.valueOf(StudentConstants.EMAIL_CONFLICT));
         }
         // Write the Logic For DTO to Entity
-        Student student = StudentMapper.mappedStudentDtoToStudent(studentDto);
+        Student student = studentMapper.mapStudentDtoToStudent(studentDto);
         Student savedStudent = studentRepository.save(student);
 
-        StudentDto savedStudentDto = StudentMapper.mappedStudentToStudentDto(savedStudent);
+        StudentDto savedStudentDto = studentMapper.mapStudentToStudentDto(savedStudent);
 
         return savedStudentDto;
     }
