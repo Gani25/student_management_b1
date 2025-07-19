@@ -1,10 +1,17 @@
 package com.sprk.student_management.controller;
 
 import com.sprk.student_management.constant.StudentConstants;
+import com.sprk.student_management.dto.ErrorResponseDto;
 import com.sprk.student_management.dto.ResponseDto;
 import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
 import com.sprk.student_management.service.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +23,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(
+        name = "CRUD APIs for Student of SPRK Technologies",
+        description = "REST apis of Student in SPRK Technologies like GET, POST, PUT, DELETE"
+)
 @RequestMapping("/sprk")
 public class StudentController {
 
@@ -23,6 +34,26 @@ public class StudentController {
     private final StudentService studentService;
 
     // Insert student
+    @Operation(
+            summary = "Create Student Rest API",
+            description = "API to register new student for SPRK Technologies"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Http Status Created",
+                    content = @Content(
+                            schema = @Schema(implementation = ResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Email Already Register",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            ),
+    })
     @PostMapping("/student")
     public ResponseEntity<ResponseDto<StudentDto>> addStudent(@Valid @RequestBody StudentDto studentDto) {
         // Service Call
