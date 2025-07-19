@@ -11,7 +11,7 @@ public interface StudentService {
     // Abstract public
     public StudentDto saveStudent(StudentDto studentDto);
 
-    List<Student> findAllStudents();
+    List<StudentDto> findAllStudents();
 
     Student findStudentByRollNo(String rollNo);
 

@@ -44,8 +44,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentDto> findAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        List<StudentDto> studentDtos = students
+                .stream()
+                .map(student -> studentMapper.mapStudentToStudentDto(student))
+                .toList();
+        return studentDtos;
     }
 
     @Override
@@ -95,9 +100,18 @@ public class StudentServiceImpl implements StudentService {
         if (existingStudent != null) {
             // Update
             student.setRollNo(rollNo);
+            if(student.getFirstName() == null || student.getFirstName().isBlank()){
+                student.setFirstName(existingStudent.getFirstName());
+            }
+            if(student.getLastName() == null || student.getLastName().isBlank()){
+                student.setLastName(existingStudent.getLastName());
+            }
+
+
            
             Student updatedStudent = studentRepository.save(student);
 
+            // Return DTO
             return updatedStudent;
         }
         return existingStudent;

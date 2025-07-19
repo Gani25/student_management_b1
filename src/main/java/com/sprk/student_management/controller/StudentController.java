@@ -1,5 +1,7 @@
 package com.sprk.student_management.controller;
 
+import com.sprk.student_management.constant.StudentConstants;
+import com.sprk.student_management.dto.ResponseDto;
 import com.sprk.student_management.dto.StudentDto;
 import com.sprk.student_management.entity.Student;
 import com.sprk.student_management.service.StudentService;
@@ -22,17 +24,25 @@ public class StudentController {
 
     // Insert student
     @PostMapping("/student")
-    public StudentDto addStudent(@Valid @RequestBody StudentDto studentDto) {
+    public ResponseEntity<ResponseDto<StudentDto>> addStudent(@Valid @RequestBody StudentDto studentDto) {
         // Service Call
         StudentDto savedStudentDto = studentService.saveStudent(studentDto);
-        return savedStudentDto;
+        ResponseDto<StudentDto> responseDto = new ResponseDto<>();
+        responseDto.setStatusCode(StudentConstants.STUDENT_CREATED);
+        responseDto.setMessage(String.format(StudentConstants.STUDENT_CREATED_MSG,savedStudentDto.getRollNo()));
+        responseDto.setData(savedStudentDto);
+        return ResponseEntity.status(HttpStatus.valueOf(StudentConstants.STUDENT_CREATED)).body(responseDto);
     }
 
     // Find All Students
     @GetMapping("/student")
-    public List<Student> getAllStudents() {
-        List<Student> students = studentService.findAllStudents();
-        return students;
+    public ResponseEntity<ResponseDto<List<StudentDto>>>  getAllStudents() {
+        List<StudentDto> studentDtos = studentService.findAllStudents();
+        ResponseDto<List<StudentDto>> responseDto = new ResponseDto<>();
+        responseDto.setStatusCode(StudentConstants.SUCCESS);
+        responseDto.setMessage(StudentConstants.GET_ALL_STUDENT);
+        responseDto.setData(studentDtos);
+        return ResponseEntity.status(HttpStatus.valueOf(StudentConstants.SUCCESS)).body(responseDto);
     }
 
     // Find Student By Roll No
